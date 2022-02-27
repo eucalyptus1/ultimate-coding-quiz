@@ -3,46 +3,106 @@
 var questions = [
     {question:
        "Commonly included data types do NOT include:",
-       choices: choices[0]
+       answers: ["strings", "booleans", "alerts", "numbers"],
+       correctAnswer: ["alerts"]
     },
 
    {question: 
        "the condition in an if/else statement is enclosed with ______.",
-       choices: choices[1]
+       answers: ["quotes", "curly brackets", "parenthesis", "square brackets"],
+       correctAnswer: ["curly brackets"]
    },
 
    {question:
        "arrays in javascript can be used to store _____.",
-       choices: choices[2]
+       answers: ["numbers and strings", "other arrays", "booleans", "all of the above"],
+       correctAnswer: ["all of the above"]
    },
 
    {question:
        "string values must be enclosed within ______ when being assigned to variables.",
-       choices: choices[3]
+       answers: ["commas", "curly brackets", "quotes", "parenthesis"],
+       correctAnswer: ["quotes"],
    },
 
    {question:
        "a very useful tool used during development and debugging for printing content to the debugger is:",
-       choices: choices [4]
+       answers: ["javascript", "terminal/bash", "for loops", "console.log"],
+       correctAnswer: ["console.log"],
    },
 
    {question:
        "What can you get at the concession stand for $10, $10 or $13?",
-       choices: choices [5]
+       answers: ["Luke Wilson", "16:9 Anamorphic", "Hot, Hot Buttery Popcorn", "Battleship Potemkin"],
+       correctAnswer: ["Hot, Hot Buttery Popcorn"]
    }
-]
+];
 
+var titleScreen = document.getElementById("title-screen")
+var startButton = document.getElementById("start-button");
+var quizQuestion = document.getElementById("the-question");
 
-var choices = [["strings", "booleans", "alerts", "numbers"]
-["quotes", "curly brackets", "parenthesis", "square brackets"],
-["numbers and strings", "other arrays", "booleans", "all of the above"],
-["commas", "curly brackets", "quotes", "parenthesis"],
-["javascript", "terminal/bash", "for loops", "console.log"],
-["Luke Wilson", "16:9 Anamorphic", "Hot, Hot Buttery Popcorn", "Battleship Potemkin"]]
+var questionArr = 0;
+// var ansArr = 0;
+var choiceList = document.getElementById("the-answers");
+var a1 = document.getElementById("ans1");
+var a2 = document.getElementById("ans2");
+var a3 = document.getElementById("ans3");
+var a4 = document.getElementById("ans4");
+
+// var displayQuiz = document.getElementById("quiz");
+var end = document.getElementById("end-page");
+var highScores = document.getElementById("score-page");
 
 //Use mouse-click events to start the quiz
 
+var startButton = document.getElementById("start-button");
+startButton.addEventListener('click', startQuiz);
+
+function startQuiz() {
+    nextQuestion();
+    if (startQuiz) {
+        titleScreen.style.display = "none";
+    }
+
+
+};
+
 //Write for loops to cycle through quiz questions
+
+// function nextQuestion() {
+//     for (let i = 0; i < questions.length; i++) {
+//         var quizQuestion = document.createElement("h2")
+//         var choiceList = document.createElement("button")
+//         quizQuestion.innerHTML = questions[i].question;
+//         questions.appendChild(quizQuestion);
+//         answers.appendChild(choiceList);
+
+
+        // for (let j = 0; j < questions[i].answers.length; j++) {
+        //     var choiceList = document.createElement("button")
+        //     choiceList.innerHTML = questions[i].answers[j]
+        //     answers.appendChild(choiceList);
+        // }
+        
+//     }
+    
+// };
+
+function nextQuestion() {
+    for (var i = 0; i < questions.length; i++) {
+        var displayQuestion = questions[questionArr].question;
+        var displayAnswers = questions[questionArr].answers;
+        quizQuestion.textContent = displayQuestion;
+        choiceList.textContent = displayAnswers;
+
+        
+
+    }
+
+}
+
+   
 
 //Use key-press events to receive user input in the form of answers to quiz questions
 
@@ -56,36 +116,5 @@ var choices = [["strings", "booleans", "alerts", "numbers"]
 
 
 
-var thirdQuestion = questions[2].question
+// var thirdQuestion = questions[2].question
 
-var mainDiv = document.getElementById("main")
-var quizQuestion = document.getElementById("question")
-var choices = document.getElementById("choices")
-
-var startButton = document.createElement("button")
-startButton.innerHTML = "start the quiz"
-mainDiv.appendChild(startButton)
-
-function nextQuestion() {
-    for (let i = 0; i < questions.length; i++) {
-        quizQuestion.innerHTML = questions[i].question;
-
-        for (let j = 0; j < questions[i].choices.length; j++) {
-            var choiceList = document.createElement("li")
-            choiceList.innerHTML = questions[i].choices[j]
-            choices.appendChild(choiceList)
-        }
-        
-
-        // for (let j = 0; j < choices.length; j++) {
-        //     var choiceList = document.createElement("li")
-        //     choiceList.innerHTML = choices[j]
-        //     choices.appendChild(choiceList)
-        //     console.log(choiceList);
-
-        // }
-    }
-    
-}
-
-startButton.addEventListener("click", nextQuestion)
