@@ -41,14 +41,16 @@ var questions = [
 var titleScreen = document.getElementById("title-screen")
 var startButton = document.getElementById("start-button");
 var quizQuestion = document.getElementById("the-question");
+var theAnswers = document.getElementById("the-answers");
+var timer = document.getElementById("timer");
+var seconds = 50;
+
+document.getElementById("the-answers").addEventListener('click', clickAnswer);
+
+
 
 var questionArr = 0;
-// var ansArr = 0;
-// var choiceList = document.getElementById("the-answers");
-var a1 = document.getElementById("ans1");
-var a2 = document.getElementById("ans2");
-var a3 = document.getElementById("ans3");
-var a4 = document.getElementById("ans4");
+
 
 // var displayQuiz = document.getElementById("quiz");
 var end = document.getElementById("end-page");
@@ -60,13 +62,25 @@ var startButton = document.getElementById("start-button");
 startButton.addEventListener('click', startQuiz);
 
 function startQuiz() {
-    questionObj();
+    nextQuestion();
+    countDown = setInterval(startTime, 5000);
     if (startQuiz) {
         titleScreen.style.display = "none";
     }
-
+    
 
 };
+
+//Create a time limit for the game using time functions
+
+function startTime() {
+    document.getElementById("timer").innerHTML = seconds;
+    if (seconds == -1) {
+        clearInterval(countDown);
+      }
+      gameOver();
+}
+
 
 //Write for loops to cycle through quiz questions
 
@@ -89,40 +103,66 @@ function startQuiz() {
     
 // };
 
-function questionObj() {
-    for (var i = 0; i < questions.length; i++) {
-        var displayQuestion = questions[questionArr].question;
-        var displayAnswers = questions[questionArr].answers[i];
-        quizQuestion.textContent = displayQuestion;
+function nextQuestion() {
+    theAnswers.innerHTML = "";
+    // for (var i = 0; i < questions.length; i++) {
+    //     var displayQuestion = questions[questionArr].question;
+    //     quizQuestion.textContent = displayQuestion;
+    // }
+
+    var displayQuestion = questions[questionArr];
+    var answers = displayQuestion.answers;
+    
+
+    quizQuestion.textContent = displayQuestion.question;
+
+    for (var j = 0; j < answers.length; j++) {
+        var displayAnswers = answers[j];
         var choiceBtn = document.createElement("button");
-        choiceBtn.textContent = displayAnswers;
+        choiceBtn.innerText = displayAnswers;
         document.getElementById("the-answers").appendChild(choiceBtn);
         
-
     }
-
-    choiceBtn.addEventListener('click', clickAnswer);
+    
+    
+    
 };
+
 
 //Use key-press events to receive user input in the form of answers to quiz questions
 
 function clickAnswer(event) {
-    var choice = event.target;
+    event.preventDefault();
+    console.dir(clickAnswer);
+
+    var choice = event.target.innerHTML;
+    console.log(choice);
+    console.log("choice");
     var correctAnswer = questions[questionArr].correct;
-    if (choice.button === correctAnswer) {
+    console.log("correctAnswer", correctAnswer);
+//Write conditional statements to determine wrong and right answers
+    if (choice == correctAnswer) {
         console.log("right!");
+        
     } else {
         console.log("wrong!");
+        
     }
+    
+    if (questionArr < questions.length) {
+        nextQuestion();
+    }
+     questionArr++;
+
+    
 };
 
 
-//Create a time limit for the game using time functions
-
-//Write conditional statements to determine wrong and right answers
-
-
-
 //Use client-side storage to store high scores
+
+function gameOver() {
+
+
+}
 
 
