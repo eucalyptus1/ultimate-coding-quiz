@@ -22,13 +22,13 @@ var questions = [
    {question:
        "string values must be enclosed within ______ when being assigned to variables.",
        answers: ["commas", "curly brackets", "quotes", "parenthesis"],
-       correct: "quotes",
+       correct: "quotes"
    },
 
    {question:
        "a very useful tool used during development and debugging for printing content to the debugger is:",
        answers: ["javascript", "terminal/bash", "for loops", "console.log"],
-       correct: "console.log",
+       correct: "console.log"
    },
 
    {question:
@@ -42,17 +42,17 @@ var titleScreen = document.getElementById("title-screen")
 var startButton = document.getElementById("start-button");
 var quizQuestion = document.getElementById("the-question");
 var theAnswers = document.getElementById("the-answers");
-var timer = document.getElementById("timer");
+
 var seconds = 50;
 
 document.getElementById("the-answers").addEventListener('click', clickAnswer);
 
 
 
-var questionArr = 0;
+var questionArr = []
+var questionOrder = 0;
 
 
-// var displayQuiz = document.getElementById("quiz");
 var end = document.getElementById("end-page");
 var highScores = document.getElementById("score-page");
 
@@ -62,25 +62,26 @@ var startButton = document.getElementById("start-button");
 startButton.addEventListener('click', startQuiz);
 
 function startQuiz() {
-    nextQuestion();
-    countDown = setInterval(startTime, 5000);
-    if (startQuiz) {
-        titleScreen.style.display = "none";
-    }
-    
-
+    titleScreen.style.display = "none";
+    questionCount = 0;
+    startTime();
+    nextQuestion(questionCount);
 };
 
 //Create a time limit for the game using time functions
 
-function startTime() {
-    document.getElementById("timer").innerHTML = seconds;
-    if (seconds == -1) {
-        clearInterval(countDown);
-      }
-      gameOver();
-}
+var counter = setInterval(startTime, 1000);
 
+function startTime() {
+  seconds = seconds -1;
+  if (seconds == 0)
+  {
+     clearInterval(counter);
+     gameOver();
+  }
+
+  document.getElementById("timer").innerHTML = seconds;
+};
 
 //Write for loops to cycle through quiz questions
 
@@ -104,28 +105,28 @@ function startTime() {
 // };
 
 function nextQuestion() {
-    theAnswers.innerHTML = "";
+    
+    
+    
     // for (var i = 0; i < questions.length; i++) {
     //     var displayQuestion = questions[questionArr].question;
     //     quizQuestion.textContent = displayQuestion;
     // }
 
-    var displayQuestion = questions[questionArr];
+    var displayQuestion = questions[questionOrder];
     var answers = displayQuestion.answers;
     
 
     quizQuestion.textContent = displayQuestion.question;
 
-    for (var j = 0; j < answers.length; j++) {
-        var displayAnswers = answers[j];
+    for (var i = 0; i < answers.length; i++) {
+        var displayAnswers = answers[i];
         var choiceBtn = document.createElement("button");
         choiceBtn.innerText = displayAnswers;
         document.getElementById("the-answers").appendChild(choiceBtn);
         
     }
-    
-    
-    
+
 };
 
 
@@ -135,24 +136,27 @@ function clickAnswer(event) {
     event.preventDefault();
     console.dir(clickAnswer);
 
-    var choice = event.target.innerHTML;
+    var choice = event.target;
     console.log(choice);
     console.log("choice");
-    var correctAnswer = questions[questionArr].correct;
+    var correctAnswer = questions[questionOrder].correct;
     console.log("correctAnswer", correctAnswer);
+
 //Write conditional statements to determine wrong and right answers
-    if (choice == correctAnswer) {
+    if (choice.textContent === correctAnswer) {
         console.log("right!");
         
     } else {
         console.log("wrong!");
         
     }
-    
-    if (questionArr < questions.length) {
+    if (questionOrder < questions.length) {
+        theAnswers.innerHTML = "";
+        questionOrder++;
         nextQuestion();
+
     }
-     questionArr++;
+    
 
     
 };
@@ -161,7 +165,12 @@ function clickAnswer(event) {
 //Use client-side storage to store high scores
 
 function gameOver() {
+    if (questionArr >= 5 || seconds <= 0) {
 
+    
+        clearInterval(quizTime);
+      
+    }
 
 }
 
