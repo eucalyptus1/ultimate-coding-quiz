@@ -39,6 +39,7 @@ var questions = [
 ];
 
 var wholeQuiz = document.getElementById("quiz");
+var timer = document.getElementById("timer");
 var titleScreen = document.getElementById("title-screen")
 var startButton = document.getElementById("start-button");
 var quizQuestion = document.getElementById("the-question");
@@ -65,23 +66,23 @@ startButton.addEventListener('click', startQuiz);
 function startQuiz() {
     titleScreen.style.display = "none";
     questionArr = 0;
-    startTime();
+ //Create a time limit for the game using time functions
+    var startTime = setInterval(function() {
+        timer.textContent = seconds;
+        seconds-=1;
+
+        if (seconds === 0 || questions.length === questionArr+1)
+        {
+           gameOver();
+           clearInterval(startTime);
+           
+        }
+      }, 1000);
+
     nextQuestion(questionArr);
 };
 
-//Create a time limit for the game using time functions
 
-function startTime() {
-  var counter = setInterval(startTime, 1000);
-  seconds = seconds -1;
-  if (seconds === -1)
-  {
-     clearInterval(counter);
-     gameOver();
-  }
-
-  document.getElementById("timer").innerHTML = seconds;
-};
 
 //Write for loops to cycle through quiz questions
 
@@ -118,11 +119,11 @@ function clickAnswer(event) {
 
 //Write conditional statements to determine wrong and right answers
     if (choice.textContent === correctAnswer) {
-        answerAlert.textContent = "Correct!"
+        answerAlert.textContent = "Correct!";
 
     } else {
-        answerAlert.textContent = "Wrong!"
-        seconds -= 1;
+        answerAlert.textContent = "Wrong!";
+        seconds -=10;
         nextQuestion();
     }
 
@@ -141,18 +142,14 @@ function clickAnswer(event) {
 //Use client-side storage to store high scores
 
 function gameOver() {
-    // if (questions.length === questionArr+1 || seconds === 0) {
+    if (questions.length === questionArr+1 || seconds === 0) {
         quizQuestion.style.display = "none";
         theAnswers.style.display = "none";
         clearInterval(seconds);
         var end = document.createElement("h1");
         end.innerText = "CONGRATS! You won! (or maybe lost)";
         document.getElementById("quiz").appendChild(end);
-
-
-        
-    
-
+    }
 
 }
 
