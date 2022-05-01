@@ -145,7 +145,7 @@ function gameOver() {
     if (questions.length === questionArr+1 || seconds === 0) {
         quizQuestion.style.display = "none";
         theAnswers.style.display = "none";
-        clearInterval(seconds);
+        clearInterval(startTime);
         var end = document.createElement("h1");
         end.innerText = "CONGRATS! You won! (or maybe lost)";
         document.getElementById("quiz").appendChild(end);
